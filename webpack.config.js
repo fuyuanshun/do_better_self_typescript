@@ -19,6 +19,10 @@ module.exports = {
                 use:['style-loader','css-loader']
             },
             {
+                test:/\.s[ac]ss$/,
+                use:['style-loader','css-loader', 'sass-loader']
+            },
+            {
                 test:/\.ts$/,
                 use:['ts-loader']
             }
@@ -31,8 +35,14 @@ module.exports = {
             //打包的文件名
             filename:"index.html",
             //模板
-            template:"./public/index.html",
+            template:"./src/index.html",
         })
     ],
+    devServer:{
+        host:"localhost",
+        port:3000,
+        //是否自动打开浏览器
+        open:true
+    },
     mode:"development"
 }
