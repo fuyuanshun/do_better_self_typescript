@@ -44,5 +44,9 @@ module.exports = {
         //是否自动打开浏览器
         open:true
     },
-    mode:"development"
+    mode:"development",
+    // 用来设置引用模块，可以将这些文件识别为模块
+    resolve: {
+        extensions: ['.ts', '.js']
+    }
 }
