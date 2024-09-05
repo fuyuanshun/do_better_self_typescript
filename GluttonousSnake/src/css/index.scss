@@ -43,8 +43,6 @@ body {
             width: 10px;
             height: 10px;
             position: absolute;
-            left: 100px;
-            top: 100px;
             display: flex;  
             flex-wrap: wrap;
             div{
@@ -56,14 +54,12 @@ body {
         }
 
         #snake {
-            left: 50px;
-            top: 50px;
-            position: absolute;
             div {
                 width: 10px;
                 height: 10px;
                 background-color: black;
                 border: 1px solid #b7d4a8;
+                position: absolute;
             }
         }
     }
