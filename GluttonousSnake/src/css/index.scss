@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+
+    // 盒子总大小包括边框（怪异盒模型）
+    box-sizing: border-box;
+}
+
+body {
+    /* 设置宽高 */
+    width: 100vw;
+    height: 100vh;
+
+    font: bold 20px Courier;
+
+    background-color: #dff;
+    /* 居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 360px;
+    height: 420px;
+    background-color: #b7d4a8;
+
+    border: 5px solid;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+
+    .stage {
+        width: 304px;
+        height: 304px;
+        border: 2px solid;
+        position: relative;
+
+        // 食物
+        #food {
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            display: flex;  
+            flex-wrap: wrap;
+            div{
+                background-color: black;
+                rotate: 40deg;
+                width: 5px;
+                height: 5px;
+            }
+        }
+
+        #snake {
+            left: 50px;
+            top: 50px;
+            position: absolute;
+            div {
+                width: 10px;
+                height: 10px;
+                background-color: black;
+                border: 1px solid #b7d4a8;
+            }
+        }
+    }
+    
+    .score_pannel {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
