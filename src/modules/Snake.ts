@@ -23,6 +23,26 @@ class Snake{
     }
 
     /**
+     * 移动
+     */
+    move(direction:String){
+        switch(direction){
+            case 'ArrowLeft':
+                this.element.style.left = this.element.offsetLeft - 10 + "px";
+                break;
+            case 'ArrowRight':
+                this.element.style.left = this.element.offsetLeft + 10 + "px";
+                break;
+            case 'ArrowUp':
+                this.element.style.top = this.element.offsetTop - 10 + "px";
+                break;
+            case 'ArrowDown':
+                this.element.style.top = this.element.offsetTop + 10 + "px";
+                break;
+        }
+    }
+
+    /**
      * 获取蛇的X坐标
      * @returns 
      */
