@@ -1,19 +1,34 @@
-//游戏界面宽度
-const MAX_GAME_WIDTH:number = 290;
+class GameConstant{
+    //蛇头初始位置-X轴 必须是10的整数
+    static INIT_LOCATION_X:number = 140;
 
-//游戏界面高度
-const MAX_GAME_HEIGHT:number = 290;
+    //蛇头初始位置-Y轴 必须是10的整数
+    static INIT_LOCATION_Y:number = 140;
 
-//每多少分增加一阶段速度
-const SCORE_STAGE:number = 2;
+    //游戏界面宽度
+    static MAX_GAME_WIDTH:number = 290;
 
-//生成道具食物的概率
-const PROPS_PROBABILITY:number = 0.5;
+    //游戏界面高度
+    static MAX_GAME_HEIGHT:number = 290;
 
-//道具持续时间，单位s
-const PROPS_ALIVE_TIME:number = 30;
+    //每多少分增加一阶段速度
+    static SCORE_STAGE:number = 2;
 
-//最大关卡数
-const MAX_LEVEL:number = 10;
+    //生成道具食物的概率
+    static PROPS_PROBABILITY:number = 0.5;
 
-export {MAX_GAME_HEIGHT, MAX_GAME_WIDTH, SCORE_STAGE,PROPS_PROBABILITY,PROPS_ALIVE_TIME, MAX_LEVEL}
+    //吃到加速食物后的移动速度
+    static PROPS_FAST_FOOD_SPEED:number = 100;
+
+    //吃到减速食物后的移动速度
+    static PROPS_SLOW_FOOD_SPEED:number = 500;
+
+    //道具持续时间，单位s
+    static PROPS_ALIVE_TIME:number = 10;
+
+    //最大关卡数
+    static MAX_LEVEL:number = 10;
+}
+
+
+export default GameConstant;

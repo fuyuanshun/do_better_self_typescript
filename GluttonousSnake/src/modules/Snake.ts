@@ -1,4 +1,4 @@
-import { MAX_GAME_WIDTH, MAX_GAME_HEIGHT } from "../ts/constants/GameConstant";
+import GameConstant from "../ts/constants/GameConstant";
 import ScorePanel from "./ScorePanel";
 
 /**
@@ -106,7 +106,7 @@ class Snake{
             return;
         }
         //超过边界
-        if(left < 0 || left > MAX_GAME_WIDTH){
+        if(left < 0 || left > GameConstant.MAX_GAME_WIDTH){
             this.isAlive = false;
             return;
         }
@@ -124,7 +124,7 @@ class Snake{
             return;
         }
         //超过边界
-        if(top < 0 || top > MAX_GAME_HEIGHT){
+        if(top < 0 || top > GameConstant.MAX_GAME_HEIGHT){
             this.isAlive = false;
             return;
         }

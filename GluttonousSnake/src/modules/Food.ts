@@ -1,4 +1,4 @@
-import { PROPS_PROBABILITY } from "../ts/constants/GameConstant";
+import GameConstant from "../ts/constants/GameConstant";
 import FoodType from "../ts/enums/FoodType";
 
 /**
@@ -23,21 +23,22 @@ class Food {
     random(){
         //根据生成的随机数判断是否生成特殊食物
         let randomNum = Math.random();
+        //食物颜色由四个颜色组成
+        let color:string[]=['black','black','black','black'];
+        let rType:FoodType = 0;
         //根据配置计算生成道具的概率
-        if(randomNum > 1-PROPS_PROBABILITY){
-            //食物颜色由四个颜色组成
-            let color:string[];
-            let rType:FoodType|string;
+        if(randomNum > 1 - GameConstant.PROPS_PROBABILITY){
             //过滤掉枚举数组中的字符
             let foodTypeArr = Object.values(FoodType).filter(e=> typeof e === 'number')
             //穿墙食物 0.1概率
             if(randomNum > 0.9){
                 color = ['red','yellow','blue','green']
                 rType = foodTypeArr[foodTypeArr.length-1]
-            //
-            } else if(randomNum > 0.6){
+            //跑的更快
+            } else if(randomNum > 0.7){
                 color = ['red','red','red','red']
                 rType = foodTypeArr[foodTypeArr.length-2]
+            //跑的更慢
             } else {
                 color = ['gray','gray','gray','gray']
                 rType = foodTypeArr[foodTypeArr.length-3]
@@ -47,9 +48,9 @@ class Food {
                 let e = <HTMLElement>this.els[i];
                 e.style.backgroundColor = color[i];
             }
-            //食物类型
-            this.type = FoodType.CROSS_WALL_FOOD;
         }
+        //食物类型
+        this.type = rType;
         this.element.style.left = Math.round(Math.random() * 29) * 10 + "px"
         this.element.style.top = Math.round(Math.random() * 29) * 10  + "px"
     }
@@ -70,7 +71,7 @@ class Food {
         return this.element.offsetTop;
     }
 
-    get FoodType(){
+    get foodType(){
         return this.type;
     }
 }
