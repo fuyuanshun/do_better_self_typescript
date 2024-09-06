@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+ul li{
+    list-style: none;
+}
+
 body {
     /* 设置宽高 */
     width: 100vw;
@@ -18,6 +22,65 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#main_infos {
+    font-size: 12px;
+    text-align: center;
+    width: 100px;
+    height: 420px;
+    padding: 5px;
+    background-color: #0ab8be;
+    margin-right: 10px;
+    border: 1px solid black;
+
+    hr{
+        margin-bottom: 10px;
+    }
+
+    // 道具时间显示
+    #prop_infos{
+        height: 40px;
+        line-height: 40px;
+        span strong{
+            color: red;
+        }
+    }
+
+    #rank_panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+            width:100%;
+            margin-bottom: 10px;
+        }
+
+        // 排行榜显示
+        #rank{    
+            .rank_detail{
+                margin-top:10px;
+                margin-bottom:10px;
+                align-items: baseline;
+
+                display: flex;
+                text-align: left;
+                strong{
+                    color:red;
+                }
+                .name {
+                    margin-left:5px;
+                    margin-right:5px;
+                }
+                
+                .score {
+                    color:rgb(159, 15, 216);
+                }
+            }
+        }
+    }
 }
 
 .container {
@@ -81,7 +144,7 @@ body {
             }
         }
     }
-    
+
     .score_pannel {
         width: 100%;
         display: flex;
