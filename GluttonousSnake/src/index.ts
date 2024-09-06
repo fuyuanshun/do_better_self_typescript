@@ -3,6 +3,7 @@ import './css/index.scss'
 import Food from './modules/Food';
 import ScorePanel from './modules/ScorePanel';
 import Snake from './modules/Snake';
+import FoodType from './ts/enums/FoodType';
 
 //移动方向
 let direction: String;
@@ -16,6 +17,8 @@ const scorePanel: ScorePanel = new ScorePanel();
 let interval: ReturnType<typeof setInterval>;
 //游戏结束时提示信息
 let infos = document.getElementById("infos");
+let msg = document.getElementById("msg");
+let tip = document.getElementById("tip");
 
 /**
  * 游戏启动入口
@@ -36,6 +39,7 @@ function init(){
             gameOver();
         }
         if(snake.X === food.X && snake.Y === food.Y){
+            console.log("吃到的食物类型为：", food.FoodType)
             food.random();
             snake.addNode(direction, scorePanel);
         }
@@ -51,8 +55,9 @@ init();
 function restart(){
     document.removeEventListener("keydown", KeyDownRestartHandler);
 
-    infos.innerHTML = '';
     infos.className = 'hide';
+    msg.innerHTML = '';
+    tip.innerHTML = '按空格键重新开始游戏';
     direction = '';
     
     snake.reset();
@@ -71,7 +76,8 @@ function gameOver(){
     document.addEventListener("keydown", KeyDownRestartHandler);
     
     infos.className = '';
-    infos.innerHTML = '游戏结束！分数：' + scorePanel.score;
+    msg.innerHTML = '游戏结束！分数：' + scorePanel.score;
+    tip.innerHTML = '按空格键重新开始游戏';
 }
 
 /**

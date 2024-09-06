@@ -35,6 +35,18 @@ body {
     .hide {
         display: none;
     }
+    
+    #infos {
+        div {
+            text-align: center;
+        }
+        .msg{
+            color: red;
+        }
+        .tip{
+            font-size: 12px;
+        }
+    }
 
     .stage {
         width: 304px;
@@ -50,10 +62,12 @@ body {
             display: flex;  
             flex-wrap: wrap;
             div{
-                background-color: black;
-                rotate: 40deg;
+                rotate: 45deg;
                 width: 5px;
                 height: 5px;
+            }
+            .food{
+                background-color: black;
             }
         }
 
