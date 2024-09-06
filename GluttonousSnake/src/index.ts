@@ -16,6 +16,7 @@ const snake: Snake = new Snake();
 const scorePanel: ScorePanel = new ScorePanel();
 //定时器
 let interval: ReturnType<typeof setInterval>;
+let propTimeOut: ReturnType<typeof setInterval>;
 //提示信息框
 let infos = document.getElementById("infos");
 //游戏结束时提示信息
@@ -56,10 +57,13 @@ function openInterval(speed:number){
             console.log("吃到的食物类型为：", food.foodType)
             //加速
             if(food.foodType === FoodType.FAST_FOOD){
-                debugger
                 clearInterval(interval);
+                if(propTimeOut){
+                    debugger
+                    clearTimeout(propTimeOut);
+                }
                 openInterval(GameConstant.PROPS_FAST_FOOD_SPEED);
-                setTimeout(function(){
+                propTimeOut = setTimeout(function(){
                     clearInterval(interval);
                     openInterval(moveSpeed);
                 }, GameConstant.PROPS_ALIVE_TIME*1000)
@@ -67,6 +71,9 @@ function openInterval(speed:number){
             //减速
             if(food.foodType === FoodType.SLOW_FOOD){
                 clearInterval(interval);
+                if(propTimeOut){
+                    clearTimeout(propTimeOut);
+                }
                 openInterval(GameConstant.PROPS_SLOW_FOOD_SPEED);
                 setTimeout(function(){
                     clearInterval(interval);

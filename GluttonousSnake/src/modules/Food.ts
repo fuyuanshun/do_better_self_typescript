@@ -43,11 +43,11 @@ class Food {
                 color = ['gray','gray','gray','gray']
                 rType = foodTypeArr[foodTypeArr.length-3]
             }
-            //修改食物颜色
-            for(let i = 0; i < this.els.length; i++){
-                let e = <HTMLElement>this.els[i];
-                e.style.backgroundColor = color[i];
-            }
+        }
+        //修改食物颜色
+        for(let i = 0; i < this.els.length; i++){
+            let e = <HTMLElement>this.els[i];
+            e.style.backgroundColor = color[i];
         }
         //食物类型
         this.type = rType;
