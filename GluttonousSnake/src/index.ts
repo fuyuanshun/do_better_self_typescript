@@ -59,7 +59,6 @@ function openInterval(speed:number){
             if(food.foodType === FoodType.FAST_FOOD){
                 clearInterval(interval);
                 if(propTimeOut){
-                    debugger
                     clearTimeout(propTimeOut);
                 }
                 openInterval(GameConstant.PROPS_FAST_FOOD_SPEED);
