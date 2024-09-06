@@ -54,8 +54,6 @@ class Snake{
      * 移动
      */
     move(direction:String){
-        let left = this.head.style.left;
-        let top = this.head.style.top;
         //移动后的X轴位置
         let x:number;
         //移动后的Y轴位置
@@ -80,18 +78,6 @@ class Snake{
         }
         this.X = x;
         this.Y = y;
-
-        //移动身体
-        if(this.isAlive && this.bodies.length > 1){
-            for(let i = 1; i < this.bodies.length; i++){
-                let tempLeft = (<HTMLElement>this.bodies[i]).style.left
-                let tempTop = (<HTMLElement>this.bodies[i]).style.top;
-                (<HTMLElement>this.bodies[i]).style.left = left;
-                (<HTMLElement>this.bodies[i]).style.top = top;
-                left = tempLeft
-                top = tempTop
-            }
-        }
     }
 
     /**
@@ -116,7 +102,7 @@ class Snake{
      */
     set X(left:number){
         //X轴没有变化，不处理
-        if(left === this.head.offsetLeft){
+        if(left === undefined || left === this.head.offsetLeft){
             return;
         }
         //超过边界
@@ -124,19 +110,8 @@ class Snake{
             this.isAlive = false;
             return;
         }
-        //蛇头是否碰到身体
-        Array.prototype.forEach.call(this.bodies, (div:HTMLElement)=>{
-            if(div['id'] !== 'snake_head'){
-                if(div.offsetLeft === this.head.offsetLeft && div.offsetTop === this.head.offsetTop){
-                    this.isAlive = false;
-                    return;
-                }
-            }
-        })
-        // if(this.head.style.left === ){
-
-        // }
-        this.head.style.left = left + "px";
+        //移动
+        this.moveHeadAndBody(left, this.head.offsetTop)
     }
 
     /**
@@ -145,7 +120,7 @@ class Snake{
      */
     set Y(top:number){
         //Y轴没有变化，不处理
-        if(top === this.head.offsetTop){
+        if(top === undefined || top === this.head.offsetTop){
             return;
         }
         //超过边界
@@ -153,30 +128,59 @@ class Snake{
             this.isAlive = false;
             return;
         }
-        //是否碰到身体
-        Array.prototype.forEach.call(this.bodies, (div:HTMLElement)=>{
-            if(div['id'] !== 'snake_head'){
-                if(div.offsetLeft === this.head.offsetLeft && div.offsetTop === this.head.offsetTop){
-                    this.isAlive = false;
-                    return;
+        
+        this.moveHeadAndBody(this.head.offsetLeft, top)
+    }
+
+    /**
+     * 蛇头和身体移动的具体实现方法
+     * @param left 
+     * @param top 
+     * @returns 
+     */
+    moveHeadAndBody(left:number, top:number){
+        //蛇头移动前的位置，也就是下一节身体要移动的位置
+        //每循环一次，将更新为前一节身体的位置
+        let x:number = left;
+        let y:number = top;
+        //移动蛇的每一个部分（包括蛇头）
+        for(let i = 0; i < this.bodies.length; i++){
+            let div = <HTMLElement>this.bodies[i];
+            let eLeft = div.offsetLeft
+            let eTop = div.offsetTop;
+            //蛇头移动.需要判断是否撞到自身
+            //蛇不可能撞到第1、2、3节身体（不包括头）
+            if(div['id'] === 'snake_head' && this.bodies.length > 3){
+                for(let j = 3; j < this.bodies.length; j++){
+                    let body = <HTMLElement>this.bodies[j];
+                    //x蛇要移动到的X轴 y蛇要移动到的Y轴
+                    if(x === body.offsetLeft && y === body.offsetTop){
+                        this.isAlive = false;
+                        return;
+                    }
                 }
             }
-        })
-        this.head.style.top = top + "px";
+            div.style.left = x + "px";
+            div.style.top = y + "px";
+            x = eLeft
+            y = eTop
+        }
     }
 
     /**
      * 重置
+     *  循环删除数组中的元素时，由于下标变化可能会导致异常，可以从后往前删除
      */
     reset(){
         this.isAlive = true;
         this.head.style.left = '0px';
         this.head.style.top = '0px';
-        Array.prototype.forEach.call(this.element.children, (div:HTMLElement)=>{
+        for(let i = this.bodies.length - 1; i > 0; i--){
+            let div = (<HTMLElement>this.bodies[i])
             if(div['id'] !== 'snake_head'){
-                div.parentNode.removeChild(div);
+                div.parentNode.removeChild(div)
             }
-        })
+        }
     }
 }
 

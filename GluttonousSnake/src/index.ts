@@ -39,7 +39,7 @@ function init(){
             food.random();
             snake.addNode(direction, scorePanel);
         }
-    }, 500-(40*scorePanel.level))
+    }, 200)
 }
 
 init();
@@ -81,20 +81,21 @@ function gameOver(){
 function KeyDownHandler(event:KeyboardEvent){
     //两节身子，不能反方向调头
     if(snake.bodies.length > 1){
+        let firstBody = <HTMLElement>snake.bodies[1];
         //当前为向左移动，不能向右移动
-        if(direction === 'ArrowLeft' && event.key === 'ArrowRight'){
+        if(event.key === 'ArrowLeft' && firstBody.offsetLeft === snake.X-10){
             return;
         }
-        //当前为向左移动，不能向右移动
-        if(direction === 'ArrowRight' && event.key === 'ArrowLeft'){
+        //当前为向右移动，不能向左移动
+        if(event.key === 'ArrowRight' && firstBody.offsetLeft === snake.X+10){
             return;
         }
         //当前为向上移动，不能向下移动
-        if(direction === 'ArrowUp' && event.key === 'ArrowDown'){
+        if(event.key === 'ArrowUp' && firstBody.offsetTop === snake.Y-10){
             return;
         }
         //当前为向下移动，不能向上移动
-        if(direction === 'ArrowDown' && event.key === 'ArrowUp'){
+        if(event.key === 'ArrowDown' && firstBody.offsetTop === snake.Y+10){
             return;
         }
     }
