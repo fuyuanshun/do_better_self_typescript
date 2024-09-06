@@ -31,6 +31,16 @@ class ScorePanel{
             this.levelEle.getElementsByTagName("strong")[0].innerHTML = this.level+'';
         }
     }
+
+    /**
+     * 重置计分板
+     */
+    reset(){
+        this.score = 0;
+        this.level = 1;
+        this.scoreEle.getElementsByTagName("strong")[0].innerHTML = this.score+'';
+        this.levelEle.getElementsByTagName("strong")[0].innerHTML = this.level+'';
+    }
 }
 
 export default ScorePanel;

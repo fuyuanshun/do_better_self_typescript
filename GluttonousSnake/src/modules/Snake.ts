@@ -56,42 +56,33 @@ class Snake{
     move(direction:String){
         let left = this.head.style.left;
         let top = this.head.style.top;
+        //移动后的X轴位置
+        let x:number;
+        //移动后的Y轴位置
+        let y:number;
         switch(direction){
             //向左移动
             case 'ArrowLeft':
-                if(this.head.offsetLeft - 10 < 0){
-                    this.isAlive = false;
-                    return;
-                }
-                this.head.style.left = this.head.offsetLeft - 10 + "px";
+                x = this.head.offsetLeft - 10;
                 break;
             //向右移动
             case 'ArrowRight':
-                if(this.head.offsetLeft + 10 > MAX_GAME_WIDTH){
-                    this.isAlive = false;
-                    return;
-                }
-                this.head.style.left = this.head.offsetLeft + 10 + "px";
+                x = this.head.offsetLeft + 10;
                 break;
             //向上移动
             case 'ArrowUp':
-                if(this.head.offsetTop - 10 < 0){
-                    this.isAlive = false;
-                    return;
-                }
-                this.head.style.top = this.head.offsetTop - 10 + "px";
+                y = this.head.offsetTop - 10;
                 break;
             //向下移动
             case 'ArrowDown':
-                if(this.head.offsetTop + 10 > MAX_GAME_HEIGHT){
-                    this.isAlive = false;
-                    return;
-                }
-                this.head.style.top = this.head.offsetTop + 10 + "px";
+                y = this.head.offsetTop + 10;
                 break;
         }
-        if(this.bodies.length > 1){
-            // debugger
+        this.X = x;
+        this.Y = y;
+
+        //移动身体
+        if(this.isAlive && this.bodies.length > 1){
             for(let i = 1; i < this.bodies.length; i++){
                 let tempLeft = (<HTMLElement>this.bodies[i]).style.left
                 let tempTop = (<HTMLElement>this.bodies[i]).style.top;
@@ -107,7 +98,7 @@ class Snake{
      * 获取蛇的X坐标
      * @returns 
      */
-    getX(){
+    get X(){
         return this.head.offsetLeft;
     }
 
@@ -115,10 +106,78 @@ class Snake{
      * 获取蛇的Y坐标
      * @returns 
      */
-    getY(){
+    get Y(){
         return this.head.offsetTop;
     }
 
+    /**
+     * 设置蛇的X坐标
+     * @returns 
+     */
+    set X(left:number){
+        //X轴没有变化，不处理
+        if(left === this.head.offsetLeft){
+            return;
+        }
+        //超过边界
+        if(left < 0 || left > MAX_GAME_WIDTH){
+            this.isAlive = false;
+            return;
+        }
+        //蛇头是否碰到身体
+        Array.prototype.forEach.call(this.bodies, (div:HTMLElement)=>{
+            if(div['id'] !== 'snake_head'){
+                if(div.offsetLeft === this.head.offsetLeft && div.offsetTop === this.head.offsetTop){
+                    this.isAlive = false;
+                    return;
+                }
+            }
+        })
+        // if(this.head.style.left === ){
+
+        // }
+        this.head.style.left = left + "px";
+    }
+
+    /**
+     * 设置蛇的Y坐标
+     * @returns 
+     */
+    set Y(top:number){
+        //Y轴没有变化，不处理
+        if(top === this.head.offsetTop){
+            return;
+        }
+        //超过边界
+        if(top < 0 || top > MAX_GAME_HEIGHT){
+            this.isAlive = false;
+            return;
+        }
+        //是否碰到身体
+        Array.prototype.forEach.call(this.bodies, (div:HTMLElement)=>{
+            if(div['id'] !== 'snake_head'){
+                if(div.offsetLeft === this.head.offsetLeft && div.offsetTop === this.head.offsetTop){
+                    this.isAlive = false;
+                    return;
+                }
+            }
+        })
+        this.head.style.top = top + "px";
+    }
+
+    /**
+     * 重置
+     */
+    reset(){
+        this.isAlive = true;
+        this.head.style.left = '0px';
+        this.head.style.top = '0px';
+        Array.prototype.forEach.call(this.element.children, (div:HTMLElement)=>{
+            if(div['id'] !== 'snake_head'){
+                div.parentNode.removeChild(div);
+            }
+        })
+    }
 }
 
 export default Snake;

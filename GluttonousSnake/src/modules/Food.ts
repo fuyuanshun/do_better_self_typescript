@@ -20,7 +20,7 @@ class Food {
      * 获取食物的X轴坐标
      * @returns 
      */
-    getX(){
+    get X(){
         return this.element.offsetLeft;
     }
 
@@ -28,7 +28,7 @@ class Food {
      * 获取食物的Y轴坐标
      * @returns 
      */
-    getY(){
+    get Y(){
         return this.element.offsetTop;
     }
 }
