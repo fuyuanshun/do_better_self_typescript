@@ -28,19 +28,25 @@ let propInfos = document.getElementById("prop_infos");
 //
 let propTimes:number = 0;
 //调用定时器的频率，也就是移动的速度
-let moveSpeed:number = 300-(20*scorePanel.level);
+let moveSpeed:number = 200;
 
 
-let items = localStorage.getItem('snakeDatas');
-if(items){
-    let datas:[] = JSON.parse(items);
-    setRankInfos(datas)
+/**
+ * 初始化左侧排行榜和游戏玩法信息
+ */
+function init(){
+    let items = localStorage.getItem('snakeDatas');
+    if(items){
+        let datas:[] = JSON.parse(items);
+        setRankInfos(datas)
+    }
 }
+init();
 
 /**
  * 游戏启动入口
  */
-function init(){
+function startGame(){
     snake.X = Math.round(GameConstant.INIT_LOCATION_X/10)*10;
     snake.Y = Math.round(GameConstant.INIT_LOCATION_Y/10)*10;
     //生成食物
@@ -51,9 +57,10 @@ function init(){
     openInterval(moveSpeed);
 }
 //初始化游戏
-init();
+startGame();
 
 function openInterval(speed:number){
+    moveSpeed = 200-(15*scorePanel.level);
     interval = setInterval(function(){
         if(!direction){
             return;
@@ -63,40 +70,56 @@ function openInterval(speed:number){
         if(!snake.isAlive){
             gameOver();
         }
+        let snakeColor:string;
         if(snake.X === food.X && snake.Y === food.Y){
             console.log("吃到的食物类型为：", food.foodType)
-            //加速
+            //吃到加速食物
             if(food.foodType === FoodType.FAST_FOOD){
                 clearInterval(interval);
                 if(propTimeOut){
                     clearTimeout(propTimeOut);
                 }
-                openInterval(GameConstant.PROPS_FAST_FOOD_SPEED);
+                snakeColor = 'red';
+                //设置蛇的当前生效道具
+                snake.currProp = food.foodType;
+                openInterval(moveSpeed * GameConstant.PROPS_FAST_FOOD_SPEED);
                 propTimeOut = setTimeout(function(){
                     clearInterval(interval);
+                    snake.clearColor();
                     openInterval(moveSpeed);
                 }, GameConstant.PROPS_ALIVE_TIME*1000)
                 setPropInfo('加速', GameConstant.PROPS_ALIVE_TIME);
             }
-            //减速
+            //吃到减速食物
             if(food.foodType === FoodType.SLOW_FOOD){
                 clearInterval(interval);
                 if(propTimeOut){
                     clearTimeout(propTimeOut);
                 }
-                openInterval(GameConstant.PROPS_SLOW_FOOD_SPEED);
+                snakeColor = 'gray';
+                //设置蛇的当前生效道具
+                snake.currProp = food.foodType;
+                openInterval(moveSpeed * GameConstant.PROPS_SLOW_FOOD_SPEED);
                 setTimeout(function(){
                     clearInterval(interval);
+                    snake.clearColor();
                     openInterval(moveSpeed);
                 }, GameConstant.PROPS_ALIVE_TIME*1000)
                 setPropInfo('减速', GameConstant.PROPS_ALIVE_TIME);
             }
             randomFood();
             snake.addNode(direction, scorePanel);
+            
+            snake.setColor(snakeColor)
         }
     }, speed)
 }
 
+/**
+ * 每隔一秒更新一次道具剩余时间
+ * @param type 
+ * @param time 
+ */
 function setPropInfo(type:string, time:number){
     if(propInterval){
         clearInterval(propInterval);
@@ -199,7 +222,7 @@ function restart(){
     
     snake.reset();
     scorePanel.reset();
-    init();
+    startGame();
 }
 
 /**
@@ -228,23 +251,38 @@ function gameOver(){
     if(!name){
         return;
     }
-    let snakeDatas = localStorage.getItem('snakeDatas');
-    if(snakeDatas){
-        let snakeDatasStr = localStorage.getItem('snakeDatas');
+    let snakeDatasStr = localStorage.getItem('snakeDatas');
+    if(snakeDatasStr){
         let snakeDatas =  JSON.parse(snakeDatasStr);
         console.log(snakeDatas);
         let exists:boolean = false;
-        for(let i = 0; i < snakeDatas; i++){
-            if(snakeDatas[i].name === name){
-                snakeDatas[i].score = scorePanel.score;
-                return;
+        for(let i = 0; i < snakeDatas.length; i++){
+            if(snakeDatas[i]['name'] === name){
+                if(scorePanel.score > snakeDatas[i]['score']){
+                    snakeDatas[i]['score'] = scorePanel.score;
+                }
+                exists = true;
+                break;
             }
         }
         if(!exists){
-            snakeDatas.push({
-                name:name,
-                score:scorePanel.score
-            })
+            if(snakeDatas.length < 10){
+                snakeDatas.push({
+                    name:name,
+                    score:scorePanel.score
+                })
+            } else {
+                snakeDatas.sort((a,b)=>b['score']-a['score']);
+                //比最低分高，截掉最后一个，然后添加
+                if(scorePanel.score > snakeDatas[snakeDatas.length-1]['score']){
+                    snakeDatas = snakeDatas.slice(0,snakeDatas.length-1)
+                    snakeDatas.push({
+                        name:name,
+                        score:scorePanel.score
+                    })
+                }
+
+            }
         }
         localStorage.setItem('snakeDatas', JSON.stringify(snakeDatas));
         setRankInfos(snakeDatas);

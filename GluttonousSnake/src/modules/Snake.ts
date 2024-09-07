@@ -1,4 +1,5 @@
 import GameConstant from "../ts/constants/GameConstant";
+import FoodType from "../ts/enums/FoodType";
 import ScorePanel from "./ScorePanel";
 
 /**
@@ -10,13 +11,15 @@ class Snake{
     //蛇头
     head: HTMLElement;
     //蛇身体（包括头节点）
-    bodies: HTMLCollection;
+    bodies: HTMLCollectionOf<HTMLElement>;
     //蛇的存活状态 true存活 false死亡
     isAlive: Boolean = true;
+    //当前生效的道具
+    currProp:number;
 
     constructor(){
-        this.element = <HTMLElement>document.getElementById("snake");
-        this.head = <HTMLElement>document.querySelector("#snake > div");
+        this.element = document.getElementById("snake");
+        this.head = document.querySelector("#snake > div");
         this.bodies = this.element.getElementsByTagName("div");
     }
 
@@ -30,7 +33,7 @@ class Snake{
      */
     addNode(direction:String, scorePanel:ScorePanel){
         let div = document.createElement('div');
-        let lastDiv = (<HTMLElement>this.bodies[this.bodies.length-1]);
+        let lastDiv = this.bodies[this.bodies.length-1];
         if(direction === 'ArrowLeft'){
             div.style.left = lastDiv.offsetLeft + 10 + "px";
             div.style.top = lastDiv.offsetTop + "px";
@@ -44,7 +47,13 @@ class Snake{
             div.style.left = lastDiv.offsetLeft + "px";
             div.style.top = lastDiv.offsetTop - 10 + "px";
         }
-        
+        if(this.currProp){
+            if(this.currProp == FoodType.FAST_FOOD){
+                div.style.backgroundColor = 'red';
+            } else if(this.currProp === FoodType.SLOW_FOOD){
+                div.style.backgroundColor = 'gray';
+            }
+        }
         this.element.insertAdjacentElement('beforeend', div);
         //增加分数
         scorePanel.incrementScore();
@@ -130,6 +139,24 @@ class Snake{
         }
         
         this.moveHeadAndBody(this.head.offsetLeft, top)
+    }
+
+    setColor(color:string){
+        if(!color){
+            return;
+        }
+        for(let i = 0 ; i < this.bodies.length; i++){
+            let body = this.bodies[i];
+            body.style.backgroundColor = color;
+        }
+    }
+
+    clearColor(){
+        for(let i = 0 ; i < this.bodies.length; i++){
+            let body = this.bodies[i];
+            body.style.backgroundColor = '';
+        }
+        this.currProp = FoodType.NORMAL_FOOD;
     }
 
     /**

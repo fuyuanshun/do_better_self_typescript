@@ -17,16 +17,16 @@ class GameConstant{
     //生成道具食物的概率
     static PROPS_PROBABILITY:number = 0.5;
 
-    //吃到加速食物后的移动速度
-    static PROPS_FAST_FOOD_SPEED:number = 100;
+    //吃到加速食物后的移动速度倍数（越小跑的越快）
+    static PROPS_FAST_FOOD_SPEED:number = 0.5;
 
-    //吃到减速食物后的移动速度
-    static PROPS_SLOW_FOOD_SPEED:number = 500;
+    //吃到减速食物后的移动速度倍数（越大跑的越慢）
+    static PROPS_SLOW_FOOD_SPEED:number = 1.5;
 
     //道具持续时间，单位s
     static PROPS_ALIVE_TIME:number = 10;
 
-    //最大关卡数
+    //最大速度阶段数
     static MAX_LEVEL:number = 10;
 }
 

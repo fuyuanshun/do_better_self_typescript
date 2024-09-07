@@ -25,7 +25,16 @@ module.exports = {
             {
                 test:/\.ts$/,
                 use:['ts-loader']
-            }
+            },
+            {
+                test: /\.(png|svg|jpe?g|gif)$/i,
+                type: 'asset/resource',
+                parser:{
+                    dataUrlCondition:{
+                        maxSize: 10 * 1024,
+                    }
+                }
+            },
         ]
     },
     plugins:[

@@ -18,8 +18,6 @@ body {
     font: bold 20px Courier;
 
     background-color: #dff;
-    // background-image: url('../static/imgs/bg.png');
-    // background-size: cover;
     /* 居中 */
     display: flex;
     flex-direction: column;
@@ -31,7 +29,7 @@ body {
         font-size: 120px;
         color:transparent;
         background-clip: text;
-        background-image: url('../static/imgs/bg.png');
+        background-image: url('../imgs/bg.png');
         -webkit-text-stroke: 1px #fff;
     }
 
@@ -75,9 +73,10 @@ body {
                 // 排行榜显示
                 #rank{
                     height: 240px;
+
                     .rank_detail{
-                        margin-top:10px;
-                        margin-bottom:10px;
+                        margin-top:4px;
+                        margin-bottom:4px;
                         align-items: baseline;
         
                         display: flex;
@@ -104,35 +103,51 @@ body {
                     flex-direction: column;
                     align-items: center;
                     li:first-child{
+                        width:100%;
                         display: flex;
-                        div:first-child{
+                        align-items: center;
+                        justify-content: space-evenly;
+
+                        img.food_img{
                             width:12px;
                             height:12px;
-                            background-image: url('../static/imgs/normal_food.jpg');
+                            content: url('../imgs/normal_food.jpg')
                         }
                     }
-                    li:nth-of-type(2){
+                    li:nth-child(2){
+                        width:100%;
                         display: flex;
-                        div{
+                        align-items: center;
+                        justify-content: space-evenly;
+
+                        img.food_img{
                             width:12px;
                             height:12px;
-                            background-image: url('../static/imgs/fast_food.jpg');
+                            content: url('../imgs/fast_food.jpg')
                         }
                     }
-                    li:nth-of-type(3){
+                    li:nth-child(3){
+                        width:100%;
                         display: flex;
-                        div{
+                        align-items: center;
+                        justify-content: space-evenly;
+
+                        img.food_img{
                             width:12px;
                             height:12px;
-                            background-image: url('../static/imgs/slow_food.jpg');
+                            content: url('../imgs/slow_food.jpg')
                         }
                     }
-                    li:last-child{
+                    li:nth-child(4){
+                        width:100%;
                         display: flex;
-                        div{
+                        align-items: center;
+                        justify-content: space-evenly;
+
+                        img.food_img{
                             width:12px;
                             height:12px;
-                            background-image: url('../static/imgs/corss_wall_food.jpg');
+                            content: url('../imgs/corss_wall_food.jpg')
                         }
                     }
                 }
