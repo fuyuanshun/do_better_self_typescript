@@ -28,7 +28,7 @@ let propInfos = document.getElementById("prop_infos");
 //
 let propTimes:number = 0;
 //调用定时器的频率，也就是移动的速度
-let moveSpeed:number = 200;
+let moveSpeed:number;
 
 
 /**
@@ -47,6 +47,7 @@ init();
  * 游戏启动入口
  */
 function startGame(){
+    moveSpeed = 200;
     snake.X = Math.round(GameConstant.INIT_LOCATION_X/10)*10;
     snake.Y = Math.round(GameConstant.INIT_LOCATION_Y/10)*10;
     //生成食物
@@ -61,6 +62,10 @@ startGame();
 
 function openInterval(speed:number){
     moveSpeed = 200-(15*scorePanel.level);
+    if(interval){
+        console.log("清除旧定时器",interval)
+        clearInterval(interval);
+    }
     interval = setInterval(function(){
         if(!direction){
             return;
@@ -72,10 +77,8 @@ function openInterval(speed:number){
         }
         let snakeColor:string;
         if(snake.X === food.X && snake.Y === food.Y){
-            console.log("吃到的食物类型为：", food.foodType)
             //吃到加速食物
             if(food.foodType === FoodType.FAST_FOOD){
-                clearInterval(interval);
                 if(propTimeOut){
                     clearTimeout(propTimeOut);
                 }
@@ -84,15 +87,14 @@ function openInterval(speed:number){
                 snake.currProp = food.foodType;
                 openInterval(moveSpeed * GameConstant.PROPS_FAST_FOOD_SPEED);
                 propTimeOut = setTimeout(function(){
-                    clearInterval(interval);
                     snake.clearColor();
+                    clearInterval(interval);
                     openInterval(moveSpeed);
                 }, GameConstant.PROPS_ALIVE_TIME*1000)
                 setPropInfo('加速', GameConstant.PROPS_ALIVE_TIME);
             }
             //吃到减速食物
             if(food.foodType === FoodType.SLOW_FOOD){
-                clearInterval(interval);
                 if(propTimeOut){
                     clearTimeout(propTimeOut);
                 }
@@ -100,9 +102,9 @@ function openInterval(speed:number){
                 //设置蛇的当前生效道具
                 snake.currProp = food.foodType;
                 openInterval(moveSpeed * GameConstant.PROPS_SLOW_FOOD_SPEED);
-                setTimeout(function(){
-                    clearInterval(interval);
+                propTimeOut = setTimeout(function(){
                     snake.clearColor();
+                    clearInterval(interval);
                     openInterval(moveSpeed);
                 }, GameConstant.PROPS_ALIVE_TIME*1000)
                 setPropInfo('减速', GameConstant.PROPS_ALIVE_TIME);
@@ -113,6 +115,7 @@ function openInterval(speed:number){
             snake.setColor(snakeColor)
         }
     }, speed)
+    console.log("开启新定时器",interval)
 }
 
 /**
@@ -229,6 +232,7 @@ function restart(){
  * 游戏结束
  */
 function gameOver(){
+    console.log("清除定时器",interval)
     //移除定时器
     clearInterval(interval);
     if(propTimeOut){

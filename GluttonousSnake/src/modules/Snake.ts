@@ -200,13 +200,10 @@ class Snake{
      */
     reset(){
         this.isAlive = true;
-        this.head.style.left = '0px';
-        this.head.style.top = '0px';
+        this.head.style.backgroundColor = '';
         for(let i = this.bodies.length - 1; i > 0; i--){
             let div = (<HTMLElement>this.bodies[i])
-            if(div['id'] !== 'snake_head'){
-                div.parentNode.removeChild(div)
-            }
+            div.parentNode.removeChild(div)
         }
     }
 }
